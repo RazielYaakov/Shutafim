@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html lang="he" dir="rtl">
+    <head>
+        <title>Shutafim</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <base href="/">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="/css/login.css">
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    </head>
+    <body>
+       
+        <div class="container">
+           
+            <div class="login-page">
+               
+                <div class="form">
+                    
+                    <h3>מה המצב שותף? <i class="fas fa-user-friends"></i></h3>
+                    
+                    <form action="/createShutaf" class="register-form" method="POST">
+                       
+                        <input type="text" placeholder="שם משתמש" name="username" required>
+                        <input type="password" placeholder="סיסמא" name="password" required>
+                        <input type="text" placeholder="מייל" name="email" required>
+                        <input type="submit" id="btnCreateAccount" value="צור חשבון">                        
+                        <p class="message">כבר רשום? <a href="#">להתחברות</a></p>
+                        
+                    </form>
+                    
+                    <form action="/login" method="POST" class="login-form">
+                       
+                        <input type="text" placeholder="שם משתמש" name="username" required>
+                        <input type="password" placeholder="סיסמא" name="password" required>
+                        <input type="submit" id="btnLogin" value="התחבר">                        
+                        <p class="message">עוד לא רשום?! <a href="#">צור חשבון <i class="fas fa-user-plus"></i></a></p>
+                        
+                    </form>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+        
+        <script type="text/javascript" src="/js/login.js"></script>
+    </body>
+</html>
+ 
+
+
