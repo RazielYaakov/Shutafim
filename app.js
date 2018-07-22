@@ -8,12 +8,12 @@ var db = require('./db');
 //=====================================
 
 app.set('view engine', 'ejs');
-app.use(express.static('frontend'));
+app.use(express.static('views'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 app.get("/", function(req, res){
-    res.render("../frontend/login");
+    res.render("ejs/login");
 });
 
 app.post("/createShutaf", function(req, res){
@@ -25,7 +25,7 @@ app.post("/createShutaf", function(req, res){
     }
     db.insert("Shutafim", "Users", loginDetails, function(){
     });
-    res.redirect("https://www.google.com/");
+    res.render("ejs/main");
 });
 
 app.post("/login", function(req, res){
@@ -38,7 +38,7 @@ app.post("/login", function(req, res){
     isRegistered = true;
     console.log(loginDetails.username + " is connceted!");
     });
-    res.redirect("https://www.google.com/");
+    res.render("ejs/login");
 });
 
 app.listen(3001, function(){
