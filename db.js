@@ -2,7 +2,6 @@ var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
 var url = 'mongodb://localhost:27017/';
-var arr;
 
 // get all documents in the collection "collectionName" of db "dbName"
 // module.exports.findAll = function(dbName,collectionName, isRegistered,callback) {
@@ -89,18 +88,20 @@ var arr;
 
 //insert document to the collection "collectionName" of db "dbName"
 module.exports.insert = function(dbName, collectionName, loginDetails, callback){
-    MongoClient.connect(url, function(err, db) {
+    MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
         var dbo = db.db(dbName);
         dbo.collection(collectionName).insertOne(loginDetails, function(err, r) {
-            if (err) throw err;
-            console.log("new Shutaf created!");
+            if (err){ 
+                throw err;
+            }
+            callback("NEW Shutaf Created!");
             db.close();
         });
     });
 };
 
 module.exports.login = function(dbName,collectionName ,loginDetails, callback){
-    MongoClient.connect(url, function(err, db) {
+    MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
     assert.equal(null, err);
     var dbo = db.db(dbName); 
     cursor = dbo.collection(collectionName).find(loginDetails);
@@ -109,11 +110,33 @@ module.exports.login = function(dbName,collectionName ,loginDetails, callback){
     cursor.each(function(err, doc) {
         if (doc != null && !isConnected) {
             isConnected=true;
-            callback(doc.username + " is Connected!", true, doc.username);
+            callback(true, loginDetails.username + " connected");
         } else if(!isConnected) {
-            callback('username or password is inncorrect, please try again.',false);
+            callback(false, loginDetails.username + " fail to connect");
         }
     });
     db.close();
 });
+};
+
+module.exports.isShutafExist = function(dbName, collectionName, loginDetails, callback){
+   
+    MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
+        assert.equal(null, err);
+        
+        var dbo = db.db(dbName);
+        var isExist = false;
+
+        cursor = dbo.collection(collectionName).find(loginDetails);
+        cursor.each(function(err, doc) {
+            if (doc != null && !isExist) {
+                isExist = true;
+                callback("Username already taken", isExist); 
+            }
+            else if(!isExist){
+                callback("Valid Username", isExist); 
+            }
+        });
+        db.close();
+    });
 };

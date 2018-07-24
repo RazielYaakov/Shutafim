@@ -5,5 +5,4 @@ $('.message a').click(function(){
 function clearInputs(){
     $('input[type="text"]').val("");
     $('input[type="password"]').val("");
-    $('input[type="email"]').val("");
 }
