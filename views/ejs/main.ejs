@@ -12,17 +12,24 @@
     <body>
        
        <div class="container">
-           
-            <div class="main-page">               
-                
-                <h1>איזה כיף אני מני ממטרה!</h1>
+           <div class="main-page">
+            <form action="/addPurchase" method="POST" class="login-form">
+                <input type="text" placeholder="שם הפריט" name="itemName" required>
+                <input type="number" placeholder="מחיר הפריט" name="itemCost" required>
+                <input type="text" placeholder="קטגוריה" name="itemCategory" required>
+                <input type="date" name="purchasesDate" required>
+                <input type="submit" id="btnLogin" class="btn btn-success" value="הוסף רכישה!">                        
+            </form>
 
-                <p>אני מצחיק אתכם אני מני ממטרה!</p>
+            <form action="/deletePurchase" method="POST" class="login-form">
+                <input type="text" placeholder="שם הפריט" name="itemName" required>
+                <input type="number" placeholder="מחיר הפריט" name="itemCost" required>
+                <input type="text" placeholder="קטגוריה" name="itemCategory" required>
+                <input type="date" name="purchasesDate" required>
+                <input type="submit" id="btnLogin" class="btn btn-danger" value="מחק רכישה!">                        
+            </form>
 
-                <p>אני נקרע! ונופל לתקרה!</p>
-                
             </div>
-            
         </div>
         
     </body>

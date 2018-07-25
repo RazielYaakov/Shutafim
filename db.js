@@ -43,48 +43,23 @@ var url = 'mongodb://localhost:27017/';
 //     }else callback("You are not logged in yet!");
 // };
 
-// //update document in the collection "collectionName" of db "dbName" by criteria
-// module.exports.update = function(dbName,collectionName,criteria,setValues,isRegistered,callback) {
-//     if(isRegistered){ MongoClient.connect(url, function(err, db) {    
-//     Logger.info("Connected correctly to server");
-//     db.s.databaseName = dbName;
-//     db.collection(collectionName).updateMany(criteria,
-//          {
-//              $set:  setValues
-//          } , function(err, r) {
-//          if(assert.equal(null, err))
-//          {
-//              callback("Something went wrong!");
-//          }
-//          else
-//          {
-//              callback();
-//          }
-//      });
-//     db.close();
-// });
-//     }else callback("You are not logged in yet!");
-// };
+//add new purchase to the shutaf's purchase array
+module.exports.addPurchase = function(dbName, collectionName, newPurchase, criteria) {
+    MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {    
+        var dbo = db.db(dbName);
+        dbo.collection(collectionName).findOneAndUpdate(criteria, {$push: { purchases : newPurchase }});
+        db.close();
+    });
+};
 
-// //delete document/s from the collection "collectionName" of db "dbName" by criteria
-// module.exports.remove = function(dbName,collectionName,criteria,isRegistered,callback) {
-//     if(isRegistered){ MongoClient.connect(url, function(err, db) {
-//     Logger.info("Connected correctly to server");
-//     db.s.databaseName = dbName;
-//     db.collection(collectionName).remove(criteria, function(err, r) {
-//         if(assert.equal(null, err))
-//         {
-//             callback("Something in deleting went wrong!");
-//         }
-//         else
-//         {
-//             callback("remove successed!");
-//         }
-//     });
-//     db.close();
-// });
-//     }else callback("You are not logged in yet!");
-// };
+//delete document/s from the collection "collectionName" of db "dbName" by criteria
+module.exports.deletePurchase = function(dbName, collectionName, purchaseToDelete, criteria) {
+    MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {    
+        var dbo = db.db(dbName);
+        dbo.collection(collectionName).findOneAndUpdate(criteria, {$pull: { purchases : purchaseToDelete}});
+        db.close();
+    });
+};
 
 //insert document to the collection "collectionName" of db "dbName"
 module.exports.insert = function(dbName, collectionName, loginDetails, callback){

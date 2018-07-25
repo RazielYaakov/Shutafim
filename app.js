@@ -37,7 +37,7 @@ app.post("/createShutaf", function(req, res){
             userDetails.password = req.body.password;
             userDetails.dateCreated = Date.now();
             userDetails.roomID = [];
-            userDetails.purchases = {};
+            userDetails.purchases = [];
 
             db.insert(DB_NAME, USERS_COLLECTION, userDetails, function(msg){
                 console.log("new shutaf created at: " + getTime());
@@ -56,12 +56,52 @@ app.post("/login", function(req, res){
 
     db.login(DB_NAME, USERS_COLLECTION, loginDetails, function(isSucceed, msg){
         
-        if(isSucceed){
-            res.render("ejs/main");
-        }else { res.render("ejs/login"); }
+        if(isSucceed){            
+            res.render("ejs/main");            
+        }else{
+             res.render("ejs/login"); 
+        }
 
         console.log(msg + " at " + getTime());
     });
+});
+
+app.post("/addPurchase", function(req, res){
+    
+    var purchaseDetails = {
+        itemName : req.body.itemName,
+        itemCost : req.body.itemCost,
+        itemCategory : req.body.itemCategory,
+        purchasesDate : req.body.purchasesDate,
+    };
+
+    var criteria = {
+        //username : req.body.username
+        username : '1'
+    }
+
+    //check if exist username or email
+    db.addPurchase(DB_NAME, USERS_COLLECTION, purchaseDetails, criteria);
+    res.render("ejs/main");
+});
+
+app.post("/deletePurchase", function(req, res){
+    
+    var purchaseToDelete = {
+        itemName : req.body.itemName,
+        itemCost : req.body.itemCost,
+        itemCategory : req.body.itemCategory,
+        purchasesDate : req.body.purchasesDate,
+    };
+
+    var criteria = {
+        //username : req.body.username
+        username : '1'
+    }
+
+    //check if exist username or email
+    db.deletePurchase(DB_NAME, USERS_COLLECTION, purchaseToDelete, criteria);
+    res.render("ejs/main");
 });
 
 app.listen(3001, function(){
@@ -85,7 +125,6 @@ function getTime()
     return getMonthName(month) + space + day + space + year +
         space + hour + colons + minute + colons + second;
 }
-
 function getMonthName(month){
     var monthName;
     switch(month)
